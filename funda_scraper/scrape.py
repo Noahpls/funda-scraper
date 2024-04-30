@@ -266,6 +266,7 @@ class FundaScraper(object):
             self.get_value_from_css(soup, self.selectors.last_ask_price_m2).split("\r")[
                 0
             ],
+            self.get_value_from_css(soup, self.selectors.sale_status),
         ]
 
         # Deal with list_since_selector especially, since its CSS varies sometimes
