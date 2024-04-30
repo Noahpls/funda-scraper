@@ -1,5 +1,6 @@
 """Main funda scraper module"""
 import argparse
+from collections import OrderedDict
 import datetime
 import json
 import multiprocessing as mp
@@ -112,7 +113,7 @@ class FundaScraper(object):
         script_tag = soup.find_all("script", {"type": "application/ld+json"})[0]
         json_data = json.loads(script_tag.contents[0])
         urls = [item["url"] for item in json_data["itemListElement"]]
-        return list(set(urls))
+        return urls
 
     def reset(
         self,
@@ -149,6 +150,9 @@ class FundaScraper(object):
         if sort is not None:
             self.sort = sort
 
+    def remove_duplicates(lst):
+      return list(OrderedDict.fromkeys(lst))
+
     def fetch_all_links(self, page_start: int = None, n_pages: int = None) -> None:
         """Find all the available links across multiple pages."""
 
@@ -170,7 +174,7 @@ class FundaScraper(object):
                 logger.info(f"*** The last available page is {self.page_end} ***")
                 break
 
-        urls = list(set(urls))
+        urls = self.remove_duplicates(urls)
         logger.info(
             f"*** Got all the urls. {len(urls)} houses found from {self.page_start} to {self.page_end} ***"
         )
@@ -290,7 +294,7 @@ class FundaScraper(object):
         return result
 
     def scrape_pages(self) -> None:
-        """Scrape all the content acoss multiple pages."""
+        """Scrape all the content across multiple pages."""
 
         logger.info("*** Phase 2: Start scraping from individual links ***")
         df = pd.DataFrame({key: [] for key in self.selectors.keys()})
