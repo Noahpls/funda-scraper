@@ -11,6 +11,7 @@ keep_cols:
     - url
     - house_id
     - city
+    - sale_status
     - house_type
     - building_type
     - price
@@ -57,4 +58,5 @@ css_selector:
   price_sold: ".object-header__price--historic"
   last_ask_price: ".object-kenmerken-list:nth-child(2) .fd-align-items-center:nth-child(2)"
   last_ask_price_m2: ".object-kenmerken-list__asking-price"
+  sale_status: ".object-kenmerken-list:nth-child(2) > :nth-child(2n+8):nth-child(-n+10) span"
   photo: ".media-viewer-overview__section-list-item--photo img[data-lazy]"
